@@ -93,6 +93,13 @@ var client = function (mozaik) {
                     })
                 ;
             }));
+        },
+
+        status() {
+            buildApiRequest('/last-message.json')
+                .then(function(res) {
+                    return res.body;
+                });
         }
     };
 };
