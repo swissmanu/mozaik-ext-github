@@ -1,8 +1,8 @@
 var React            = require('react');
 var Reflux           = require('reflux');
 var ApiConsumerMixin = require('mozaik/browser').Mixin.ApiConsumer;
-var StatusIcon       = require('./StatusIcon');
-var StatusTimestamp  = require('./StatusTimestamp');
+var StatusIcon       = require('./StatusIcon.jsx');
+var StatusTimestamp  = require('./StatusTimestamp.jsx');
 
 var Status = React.createClass({
     mixins: [
