@@ -1,7 +1,8 @@
 var React            = require('react');
 var Reflux           = require('reflux');
-var _                = require('lodash');
 var ApiConsumerMixin = require('mozaik/browser').Mixin.ApiConsumer;
+var StatusIcon       = require('./StatusIcon');
+var StatusTimestamp  = require('./StatusTimestamp');
 
 var Status = React.createClass({
     mixins: [
@@ -17,10 +18,7 @@ var Status = React.createClass({
 
     getApiRequest() {
         return {
-            id: 'github.status',
-            params: {
-                user: this.props.user
-            }
+            id: 'github.status'
         };
     },
 
@@ -31,13 +29,21 @@ var Status = React.createClass({
     },
 
     render() {
-        var statusNode = (<div className="widget__body" />);
+        var widgetBodyNode = (<div className="widget__body" />);
 
         if (this.state.status) {
-            statusNode = (
+            var messageNode = null;
+
+            if(this.state.status.status !== 'good') {
+                messageNode = (<span className="github__status__current__message">{ this.state.status.body }</span>);
+            }
+
+            widgetBodyNode = (
                 <div className="widget__body">
-                    <div className="github__status">
-                        <img src={this.state.status} />
+                    <div className="github__status__current">
+                        <StatusIcon status={ this.state.status.status } message={ this.state.status.body } />
+                        { messageNode }
+                        <StatusTimestamp timestamp={ this.state.status.created_on } />
                     </div>
                 </div>
             );
@@ -49,7 +55,7 @@ var Status = React.createClass({
                     Github <span className="widget__header__subject">Status</span>
                     <i className="fa fa-github-alt" />
                 </div>
-                { statusNode }
+                { widgetBodyNode }
             </div>
         );
     }

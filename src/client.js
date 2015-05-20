@@ -96,7 +96,12 @@ var client = function (mozaik) {
         },
 
         status() {
-            buildApiRequest('/last-message.json')
+            var url = 'https://status.github.com/api/last-message.json';
+            var req = request.get(url);
+
+            mozaik.logger.info(chalk.yellow(`[github] calling ${ url }`));
+
+            return req.promise()
                 .then(function(res) {
                     return res.body;
                 });
